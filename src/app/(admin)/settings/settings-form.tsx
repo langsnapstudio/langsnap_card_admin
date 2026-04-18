@@ -14,7 +14,7 @@ export function SettingsForm() {
   const [passwordLoading, setPasswordLoading] = useState(false);
   const supabase = createClient();
 
-  async function handleEmailChange(e: React.FormEvent) {
+  async function handleEmailChange(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!email.trim()) return;
     setEmailLoading(true);
@@ -25,7 +25,7 @@ export function SettingsForm() {
     setEmail("");
   }
 
-  async function handlePasswordChange(e: React.FormEvent) {
+  async function handlePasswordChange(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!password.trim()) return;
     setPasswordLoading(true);

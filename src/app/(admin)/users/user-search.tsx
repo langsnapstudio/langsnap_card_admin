@@ -13,9 +13,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { LinkButton } from "@/components/ui/link-button";
 import { Search } from "lucide-react";
 import type { AppUser } from "@/types";
-import Link from "next/link";
 
 export function UserSearch() {
   const [query, setQuery] = useState("");
@@ -24,7 +24,7 @@ export function UserSearch() {
   const [loading, setLoading] = useState(false);
   const supabase = createClient();
 
-  async function handleSearch(e: React.FormEvent) {
+  async function handleSearch(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!query.trim()) return;
     setLoading(true);
@@ -90,18 +90,16 @@ export function UserSearch() {
                   <TableCell>
                     <Badge
                       variant={
-                        user.account_status === "active"
-                          ? "outline"
-                          : "destructive"
+                        user.account_status === "active" ? "outline" : "destructive"
                       }
                     >
                       {user.account_status}
                     </Badge>
                   </TableCell>
                   <TableCell>
-                    <Button asChild variant="ghost" size="sm">
-                      <Link href={`/users/${user.id}`}>View →</Link>
-                    </Button>
+                    <LinkButton href={`/users/${user.id}`} variant="ghost" size="sm">
+                      View →
+                    </LinkButton>
                   </TableCell>
                 </TableRow>
               ))}

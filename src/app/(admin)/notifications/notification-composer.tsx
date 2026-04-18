@@ -20,7 +20,7 @@ export function NotificationComposer() {
   const router = useRouter();
   const supabase = createClient();
 
-  async function handleSend(e: React.FormEvent) {
+  async function handleSend(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (title.length > TITLE_MAX || body.length > BODY_MAX) return;
     if (!title.trim() || !body.trim()) {

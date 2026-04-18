@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { Button } from "@/components/ui/button";
+import { LinkButton } from "@/components/ui/link-button";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -9,7 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Link from "next/link";
 import { Plus } from "lucide-react";
 
 export default async function AvatarsPage() {
@@ -23,20 +22,18 @@ export default async function AvatarsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Avatars</h1>
-        <Button asChild size="sm">
-          <Link href="/avatars/new">
-            <Plus className="mr-2 h-4 w-4" />
-            New avatar pack
-          </Link>
-        </Button>
+        <LinkButton href="/avatars/new" size="sm">
+          <Plus className="mr-2 h-4 w-4" />
+          New avatar pack
+        </LinkButton>
       </div>
 
       {!packs?.length ? (
         <div className="rounded-lg border border-dashed border-gray-200 py-16 text-center">
           <p className="text-sm text-gray-500">No avatar packs yet.</p>
-          <Button asChild size="sm" className="mt-4">
-            <Link href="/avatars/new">Create first pack</Link>
-          </Button>
+          <LinkButton href="/avatars/new" size="sm" className="mt-4">
+            Create first pack
+          </LinkButton>
         </div>
       ) : (
         <div className="rounded-lg border border-gray-200 bg-white">
@@ -64,9 +61,9 @@ export default async function AvatarsPage() {
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button asChild variant="ghost" size="sm">
-                      <Link href={`/avatars/${pack.id}`}>Manage →</Link>
-                    </Button>
+                    <LinkButton href={`/avatars/${pack.id}`} variant="ghost" size="sm">
+                      Manage →
+                    </LinkButton>
                   </TableCell>
                 </TableRow>
               ))}

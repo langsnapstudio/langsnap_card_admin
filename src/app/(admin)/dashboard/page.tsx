@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { LinkButton } from "@/components/ui/link-button";
 import { Users, BookOpen, Package, TrendingUp } from "lucide-react";
 
 async function getDashboardStats(supabase: Awaited<ReturnType<typeof createClient>>) {
@@ -62,28 +61,20 @@ export default async function DashboardPage() {
       <div>
         <h2 className="mb-4 text-base font-semibold">Quick links</h2>
         <div className="flex flex-wrap gap-3">
-          <Button asChild variant="outline" size="sm">
-            <Link href="/content/decks/new">
-              <BookOpen className="mr-2 h-4 w-4" />
-              Create new deck
-            </Link>
-          </Button>
-          <Button asChild variant="outline" size="sm">
-            <Link href="/content/packs/new">
-              <Package className="mr-2 h-4 w-4" />
-              Create new pack
-            </Link>
-          </Button>
-          <Button asChild variant="outline" size="sm">
-            <Link href="/content/decks?status=draft">
-              View unpublished decks
-            </Link>
-          </Button>
-          <Button asChild variant="outline" size="sm">
-            <Link href="/users?tab=deletion-requests">
-              View pending deletion requests
-            </Link>
-          </Button>
+          <LinkButton href="/content/decks/new" variant="outline" size="sm">
+            <BookOpen className="mr-2 h-4 w-4" />
+            Create new deck
+          </LinkButton>
+          <LinkButton href="/content/packs/new" variant="outline" size="sm">
+            <Package className="mr-2 h-4 w-4" />
+            Create new pack
+          </LinkButton>
+          <LinkButton href="/content/decks?status=draft" variant="outline" size="sm">
+            View unpublished decks
+          </LinkButton>
+          <LinkButton href="/users?tab=deletion-requests" variant="outline" size="sm">
+            View pending deletion requests
+          </LinkButton>
         </div>
       </div>
     </div>

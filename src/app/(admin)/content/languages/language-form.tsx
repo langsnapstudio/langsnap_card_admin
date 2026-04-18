@@ -20,7 +20,7 @@ export function LanguageForm({ language }: { language?: Language }) {
   const [supportsZhuyin, setSupportsZhuyin] = useState(language?.supports_zhuyin ?? false);
   const [status, setStatus] = useState<"published" | "draft">(language?.status ?? "draft");
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!name.trim() || !emojiFlag.trim()) {
       toast.error("Name and emoji flag are required.");
