@@ -50,6 +50,15 @@ export function DeckForm({ deck, sectionId }: { deck?: Deck; sectionId: string }
         updated_at: new Date().toISOString(),
       }).eq("id", deck.id);
       if (error) { toast.error(error.message); setLoading(false); return; }
+
+      if (status === "draft") {
+        const { data: packs } = await supabase.from("packs").select("id").eq("deck_id", deck.id);
+        await supabase.from("packs").update({ status: "draft" }).eq("deck_id", deck.id);
+        const packIds = (packs ?? []).map((p) => p.id);
+        if (packIds.length) {
+          await supabase.from("cards").update({ status: "draft" }).in("pack_id", packIds);
+        }
+      }
     } else {
       const { data: maxPos } = await supabase
         .from("decks")

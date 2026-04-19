@@ -49,6 +49,10 @@ export function PackForm({ pack, deckId }: { pack?: Pack; deckId: string }) {
         updated_at: new Date().toISOString(),
       }).eq("id", pack.id);
       if (error) { toast.error(error.message); setLoading(false); return; }
+
+      if (status === "draft") {
+        await supabase.from("cards").update({ status: "draft" }).eq("pack_id", pack.id);
+      }
     } else {
       const { data: maxPos } = await supabase
         .from("packs")

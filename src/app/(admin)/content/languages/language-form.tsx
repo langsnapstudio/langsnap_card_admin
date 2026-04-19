@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import type { Language } from "@/types";
 
@@ -40,11 +41,28 @@ export function LanguageForm({ language }: { language?: Language }) {
       ? await supabase.from("languages").update(payload).eq("id", language.id)
       : await supabase.from("languages").insert(payload);
 
-    setLoading(false);
-    if (error) {
-      toast.error(error.message);
-      return;
+    if (error) { toast.error(error.message); setLoading(false); return; }
+
+    if (language && status === "draft") {
+      const { data: sects } = await supabase.from("sections").select("id").eq("language_id", language.id);
+      await supabase.from("sections").update({ status: "draft" }).eq("language_id", language.id);
+      const sectionIds = (sects ?? []).map((s) => s.id);
+      if (sectionIds.length) {
+        const { data: decks } = await supabase.from("decks").select("id").in("section_id", sectionIds);
+        await supabase.from("decks").update({ status: "draft" }).in("section_id", sectionIds);
+        const deckIds = (decks ?? []).map((d) => d.id);
+        if (deckIds.length) {
+          const { data: packs } = await supabase.from("packs").select("id").in("deck_id", deckIds);
+          await supabase.from("packs").update({ status: "draft" }).in("deck_id", deckIds);
+          const packIds = (packs ?? []).map((p) => p.id);
+          if (packIds.length) {
+            await supabase.from("cards").update({ status: "draft" }).in("pack_id", packIds);
+          }
+        }
+      }
     }
+
+    setLoading(false);
     toast.success(language ? "Language updated." : "Language created.");
     router.push("/content/languages");
     router.refresh();

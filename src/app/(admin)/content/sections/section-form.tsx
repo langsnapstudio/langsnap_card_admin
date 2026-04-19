@@ -39,6 +39,20 @@ export function SectionForm({
         .update({ name: name.trim(), status, updated_at: new Date().toISOString() })
         .eq("id", section.id);
       if (error) { toast.error(error.message); setLoading(false); return; }
+
+      if (status === "draft") {
+        const { data: decks } = await supabase.from("decks").select("id").eq("section_id", section.id);
+        await supabase.from("decks").update({ status: "draft" }).eq("section_id", section.id);
+        const deckIds = (decks ?? []).map((d) => d.id);
+        if (deckIds.length) {
+          const { data: packs } = await supabase.from("packs").select("id").in("deck_id", deckIds);
+          await supabase.from("packs").update({ status: "draft" }).in("deck_id", deckIds);
+          const packIds = (packs ?? []).map((p) => p.id);
+          if (packIds.length) {
+            await supabase.from("cards").update({ status: "draft" }).in("pack_id", packIds);
+          }
+        }
+      }
     } else {
       const { data: maxPos } = await supabase
         .from("sections")
