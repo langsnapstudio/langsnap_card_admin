@@ -10,7 +10,6 @@ import {
   Trophy,
   Users,
   Bell,
-  Settings,
   LogOut,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -23,7 +22,6 @@ const navItems = [
   { href: "/feats", label: "Feats", icon: Trophy },
   { href: "/users", label: "Users", icon: Users },
   { href: "/notifications", label: "Notifications", icon: Bell },
-  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 export function Sidebar() {

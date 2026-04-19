@@ -17,7 +17,7 @@ export default async function CardsPage({
   const [{ data: pack }, { data: cards }] = await Promise.all([
     supabase
       .from("packs")
-      .select("id, title, deck_id, card_color, decks(title, section_id, sections(name, language_id, languages(name, emoji_flag), supports_pinyin:languages(supports_pinyin), supports_zhuyin:languages(supports_zhuyin)))")
+      .select("id, title, deck_id, decks(title, section_id, sections(name, language_id, languages(name, emoji_flag), supports_pinyin:languages(supports_pinyin), supports_zhuyin:languages(supports_zhuyin)))")
       .eq("id", pack_id)
       .single(),
     supabase

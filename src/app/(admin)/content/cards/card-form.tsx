@@ -6,12 +6,12 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { FileUpload } from "@/components/ui/file-upload";
 import { ColorPicker } from "@/components/ui/color-picker";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import { CardPreview } from "@/components/ui/card-preview";
 import type { CardColor, SubCategory } from "@/types";
 
 interface Card {
@@ -42,14 +42,13 @@ interface Card {
 interface CardFormProps {
   card?: Card;
   packId: string;
-  packCardColor: CardColor;
   supportsZhuyin: boolean;
   subCategories: SubCategory[];
 }
 
 const PARTS_OF_SPEECH = ["n.", "v.", "adj.", "adv.", "phrase", "pron.", "prep.", "conj.", "interj.", "measure word"];
 
-export function CardForm({ card, packId, packCardColor, supportsZhuyin, subCategories }: CardFormProps) {
+export function CardForm({ card, packId, supportsZhuyin, subCategories }: CardFormProps) {
   const router = useRouter();
   const supabase = createClient();
   const [loading, setLoading] = useState(false);
@@ -145,8 +144,11 @@ export function CardForm({ card, packId, packCardColor, supportsZhuyin, subCateg
     );
   }
 
+  const subCategoryName = subCategories.find((sc) => sc.id === subCategoryId)?.name;
+
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
+    <div className="flex gap-8 items-start">
+    <form onSubmit={handleSubmit} className="flex-1 max-w-2xl space-y-6">
       <div className="rounded-lg border border-gray-200 bg-white p-6 space-y-5">
         <h2 className="text-base font-semibold">Core fields</h2>
 
@@ -209,7 +211,7 @@ export function CardForm({ card, packId, packCardColor, supportsZhuyin, subCateg
 
         <div className="space-y-2">
           <Label>Card colour override</Label>
-          <p className="text-xs text-gray-400">Leave unset to inherit from pack ({packCardColor})</p>
+          <p className="text-xs text-gray-400">Leave unset for no colour override</p>
           <ColorPicker value={cardColor} onChange={setCardColor} />
           {cardColor && (
             <button type="button" onClick={() => setCardColor(undefined)} className="text-xs text-gray-400 hover:text-gray-600 underline">
@@ -253,10 +255,17 @@ export function CardForm({ card, packId, packCardColor, supportsZhuyin, subCateg
         )}
       </div>
 
-      <div className="rounded-lg border border-gray-200 bg-white p-6">
-        <div className="flex items-center gap-3">
-          <Switch id="status" checked={status === "published"} onCheckedChange={(v) => setStatus(v ? "published" : "draft")} />
-          <Label htmlFor="status" className="font-normal">{status === "published" ? "Published" : "Draft"}</Label>
+      <div className="rounded-lg border border-gray-200 bg-white p-6 space-y-1.5">
+        <Label>Status</Label>
+        <div className="flex gap-6">
+          <label className="flex items-center gap-2 cursor-pointer text-sm">
+            <input type="radio" name="status" value="draft" checked={status === "draft"} onChange={() => setStatus("draft")} className="accent-black" />
+            Draft
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer text-sm">
+            <input type="radio" name="status" value="published" checked={status === "published"} onChange={() => setStatus("published")} className="accent-black" />
+            Published
+          </label>
         </div>
       </div>
 
@@ -265,5 +274,27 @@ export function CardForm({ card, packId, packCardColor, supportsZhuyin, subCateg
         <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
       </div>
     </form>
+
+    <CardPreview
+      word={word}
+      pinyin={pinyin}
+      zhuyin={zhuyin}
+      meaning={meaning}
+      pos={pos}
+      cardColor={cardColor}
+      illustrationUrl={illustrationUrl}
+      subCategoryName={subCategoryName}
+      tags={tags}
+      ex1={ex1}
+      ex1Pinyin={ex1Pinyin}
+      ex1Zhuyin={ex1Zhuyin}
+      ex1Meaning={ex1Meaning}
+      ex2={ex2}
+      ex2Pinyin={ex2Pinyin}
+      ex2Zhuyin={ex2Zhuyin}
+      ex2Meaning={ex2Meaning}
+      supportsZhuyin={supportsZhuyin}
+    />
+    </div>
   );
 }

@@ -2,7 +2,6 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { Breadcrumb } from "@/components/layout/breadcrumb";
 import { CardForm } from "../../card-form";
-import type { CardColor } from "@/types";
 
 export default async function EditCardPage({
   params,
@@ -22,7 +21,7 @@ export default async function EditCardPage({
   const [{ data: pack }, { data: deckSubCategories }] = await Promise.all([
     supabase
       .from("packs")
-      .select("id, title, deck_id, card_color, decks(title, section_id, sections(name, language_id, languages(name, emoji_flag, supports_zhuyin)))")
+      .select("id, title, deck_id, decks(title, section_id, sections(name, language_id, languages(name, emoji_flag, supports_zhuyin)))")
       .eq("id", packId)
       .single(),
     supabase
@@ -54,7 +53,6 @@ export default async function EditCardPage({
       <CardForm
         card={card}
         packId={packId}
-        packCardColor={pack.card_color as CardColor}
         supportsZhuyin={lang?.supports_zhuyin ?? false}
         subCategories={deckSubCategories ?? []}
       />

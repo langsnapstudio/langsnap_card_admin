@@ -6,7 +6,6 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { FileUpload } from "@/components/ui/file-upload";
 import { toast } from "sonner";
 
@@ -98,20 +97,24 @@ export function DeckForm({ deck, sectionId }: { deck?: Deck; sectionId: string }
           label="Upload cover image (PNG, JPG, WebP)"
         />
       </div>
-      <div className="flex items-center gap-3">
-        <Switch
-          id="status"
-          checked={status === "published"}
-          disabled={!canPublish && status !== "published"}
-          onCheckedChange={(v) => {
-            if (v && !canPublish) { toast.error("Cannot publish a deck with zero packs."); return; }
-            setStatus(v ? "published" : "draft");
-          }}
-        />
-        <Label htmlFor="status" className="font-normal">
-          {status === "published" ? "Published" : "Draft"}
-          {!canPublish && <span className="ml-2 text-xs text-gray-400">(add packs first)</span>}
-        </Label>
+      <div className="space-y-1.5">
+        <Label>Status</Label>
+        <div className="flex gap-6">
+          <label className="flex items-center gap-2 cursor-pointer text-sm">
+            <input type="radio" name="status" value="draft" checked={status === "draft"} onChange={() => setStatus("draft")} className="accent-black" />
+            Draft
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer text-sm">
+            <input type="radio" name="status" value="published" checked={status === "published"}
+              onChange={() => {
+                if (!canPublish) { toast.error("Cannot publish a deck with zero packs."); return; }
+                setStatus("published");
+              }}
+              className="accent-black" />
+            Published
+            {!canPublish && <span className="text-xs text-gray-400">(add packs first)</span>}
+          </label>
+        </div>
       </div>
       <div className="flex gap-3 pt-2">
         <Button type="submit" disabled={loading}>{loading ? "Saving…" : deck ? "Save changes" : "Create deck"}</Button>

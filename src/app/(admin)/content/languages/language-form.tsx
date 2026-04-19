@@ -6,7 +6,6 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import type { Language } from "@/types";
 
@@ -84,15 +83,18 @@ export function LanguageForm({ language }: { language?: Language }) {
           <Label htmlFor="zhuyin" className="font-normal">Supports Zhuyin</Label>
         </div>
       </div>
-      <div className="flex items-center gap-3">
-        <Switch
-          id="status"
-          checked={status === "published"}
-          onCheckedChange={(v) => setStatus(v ? "published" : "draft")}
-        />
-        <Label htmlFor="status" className="font-normal">
-          {status === "published" ? "Published" : "Draft"}
-        </Label>
+      <div className="space-y-1.5">
+        <Label>Status</Label>
+        <div className="flex gap-6">
+          <label className="flex items-center gap-2 cursor-pointer text-sm">
+            <input type="radio" name="status" value="draft" checked={status === "draft"} onChange={() => setStatus("draft")} className="accent-black" />
+            Draft
+          </label>
+          <label className="flex items-center gap-2 cursor-pointer text-sm">
+            <input type="radio" name="status" value="published" checked={status === "published"} onChange={() => setStatus("published")} className="accent-black" />
+            Published
+          </label>
+        </div>
       </div>
       <div className="flex gap-3 pt-2">
         <Button type="submit" disabled={loading}>

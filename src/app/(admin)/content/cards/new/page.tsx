@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { Breadcrumb } from "@/components/layout/breadcrumb";
 import { CardForm } from "../card-form";
-import type { CardColor, SubCategory } from "@/types";
+import type { SubCategory } from "@/types";
 
 export default async function NewCardPage({
   searchParams,
@@ -16,7 +16,7 @@ export default async function NewCardPage({
   const [{ data: pack }, { data: subCategories }] = await Promise.all([
     supabase
       .from("packs")
-      .select("id, title, deck_id, card_color, decks(title, section_id, sections(name, language_id, languages(name, emoji_flag, supports_zhuyin)))")
+      .select("id, title, deck_id, decks(title, section_id, sections(name, language_id, languages(name, emoji_flag, supports_zhuyin)))")
       .eq("id", pack_id)
       .single(),
     supabase.from("sub_categories").select("*").order("order_position"),
@@ -52,7 +52,6 @@ export default async function NewCardPage({
       <h1 className="text-2xl font-semibold mb-6">New Card</h1>
       <CardForm
         packId={pack_id}
-        packCardColor={pack.card_color as CardColor}
         supportsZhuyin={lang?.supports_zhuyin ?? false}
         subCategories={deckSubCategories ?? []}
       />

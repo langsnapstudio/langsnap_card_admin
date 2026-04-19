@@ -89,7 +89,7 @@ export interface Pack {
   title: string;
   energy_cost: number;
   is_free: boolean;
-  card_color: CardColor;
+  thumbnail_emoji?: string;
   thumbnail_url?: string;
   order_position: number;
   status: Status;

@@ -2,7 +2,6 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import { Breadcrumb } from "@/components/layout/breadcrumb";
 import { BulkImport } from "./bulk-import";
-import type { CardColor } from "@/types";
 
 export default async function ImportCardsPage({
   searchParams,
@@ -16,7 +15,7 @@ export default async function ImportCardsPage({
   const [{ data: pack }, { data: existingWords }] = await Promise.all([
     supabase
       .from("packs")
-      .select("id, title, deck_id, card_color, decks(title, section_id, sections(name, language_id, languages(name, emoji_flag, supports_zhuyin)))")
+      .select("id, title, deck_id, decks(title, section_id, sections(name, language_id, languages(name, emoji_flag, supports_zhuyin)))")
       .eq("id", pack_id)
       .single(),
     supabase.from("cards").select("word").eq("pack_id", pack_id),
