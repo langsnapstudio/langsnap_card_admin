@@ -94,7 +94,7 @@ export default function PrivacyPage() {
       <h2>9. Contact Us</h2>
       <p>
         If you have any questions or requests regarding this Privacy Policy, please contact us at:{" "}
-        <a href="mailto:langsnap@gmail.com">langsnap@gmail.com</a>
+        <a href="mailto:langsnapstudio@gmail.com">langsnapstudio@gmail.com</a>
       </p>
     </article>
   );
