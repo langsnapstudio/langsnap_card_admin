@@ -30,8 +30,13 @@ export default function TermsPage() {
       <h2>3. Free and Premium Plans</h2>
       <p>
         Langsnap offers a free plan and a premium subscription. Premium features are unlocked upon
-        purchase. Subscription fees are billed through the Apple App Store or Google Play Store and
-        are subject to their respective refund policies.
+        purchase. Subscription fees are billed through the Apple App Store or Google Play Store.
+      </p>
+      <p>
+        Subscriptions are non-refundable. If you cancel your subscription or delete your account,
+        your subscription will not be renewed but no refund will be issued for any remaining period
+        already paid. You will retain access to premium features until the end of the current
+        billing period.
       </p>
 
       <h2>4. In-App Content</h2>
