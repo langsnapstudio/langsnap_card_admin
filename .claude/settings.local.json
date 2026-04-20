@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pandoc --track-changes=all \"/Users/setymo/Downloads/Langsnap/Langsnap_card/PRD/Langsnap_Card_Backoffice_PRD_v4.docx\" -o /tmp/prd_raw.md)",
+      "Read(//tmp/**)",
+      "Read(//Users/setymo/Library/Application Support/Claude/local-agent-mode-sessions/skills-plugin/124d6534-55ec-4602-8db2-2981b5d2a16d/d6ae3bab-f4d9-4ab6-8b02-20c9efdb9942/skills/xlsx/**)",
+      "Bash(python3 -c ' *)",
+      "Bash(pip3 install *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(npx tsc *)"
+    ]
+  }
+}
